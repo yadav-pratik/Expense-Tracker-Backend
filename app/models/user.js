@@ -2,13 +2,15 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const isEmail = require('validator/lib/isEmail')
 
+const Budget = require('../models/budget')
+
 const Schema = mongoose.Schema
 
 const usersSchema = new Schema({
     email : {
         type : String,
         required : true,
-        unique : [true, 'Email should be Unique'],
+        unique : true,
         validate : {
             validator : (value) => {
                 return isEmail(value)
@@ -49,9 +51,18 @@ usersSchema.pre('save', async function (next){
     } catch (error) {
         res.json(error)
     }
-
 })
 
+usersSchema.post('save', async (data, next) => {
+    try {
+        const budget = new Budget({userId : data._id})
+        const b = await budget.save()
+        console.log(b)
+        next()
+    } catch (error) {
+        console.log(error)
+    }
+})
 const User = mongoose.model('User',usersSchema)
 
 module.exports = User

@@ -14,8 +14,8 @@ usersController.register = async (req, res) => {
         const user = new User({email, password, profile})
         const u = await user.save()
 
-        const budget = new Budget({userId : u._id})
-        const b = await budget.save()
+        // const budget = new Budget({userId : u._id})
+        // const b = await budget.save()
         res.json({
             success : 'Account Created Successfully'
         })
