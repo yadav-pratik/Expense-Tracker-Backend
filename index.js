@@ -12,7 +12,7 @@ app.use(router)
 
 configureDB()
 
-const port = 3040
+const port = process.env.PORT || 3040
 
 app.listen(port, ()=>{
     console.log('server is running on port',port)
