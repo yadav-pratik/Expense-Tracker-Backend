@@ -57,7 +57,6 @@ usersSchema.post('save', async (data, next) => {
     try {
         const budget = new Budget({userId : data._id})
         const b = await budget.save()
-        console.log(b)
         next()
     } catch (error) {
         console.log(error)
