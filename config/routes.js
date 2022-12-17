@@ -1,15 +1,18 @@
 const express = require('express')
-const multer = require('multer')
-const path = require('path')
+// const multer = require('multer')
+// const path = require('path')
+const upload = require('express-fileupload')
 
-const storage = multer.diskStorage({
-  destination: (req,file,cb)=>{    cb(null,'my-uploads/tmp')
-     },
-     filename:(req,file,cb)=>{
-         cb(null,file.originalname)
-     }
- })
- const upload = multer({storage})
+const imageUpload = upload()
+
+// const storage = multer.diskStorage({
+//   destination: (req,file,cb)=>{    cb(null,'my-uploads/tmp')
+//      },
+//      filename:(req,file,cb)=>{
+//          cb(null,file.originalname)
+//      }
+//  })
+//  const upload = multer({storage})
 
 const usersController = require('../app/controllers/usersController')
 const categoriesController = require('../app/controllers/categoriesController')
@@ -25,7 +28,8 @@ const router = express.Router()
 router.post('/api/users', usersController.register)
 router.post('/api/users/login',usersController.login)
 router.get('/api/users', authenticateUser, usersController.show)
-router.put('/api/users', upload.single('profilePic'), authenticateUser, usersController.update)
+// router.put('/api/users', upload.single('profilePic'), authenticateUser, usersController.update)
+router.put('/api/users', imageUpload, authenticateUser, usersController.update)
 
 //category APIs
 

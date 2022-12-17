@@ -75,18 +75,43 @@ usersController.show = async (req, res) => {
 
 usersController.update = async (req, res) => {
     const body = req.body 
-    const file = req.file ? req.file.filename : null
-    const updatedBody = file ? {...req.body , profilePic : { 
-                data:fs.readFileSync("my-uploads/"+file),
-                contentType:'image/png'
-            }} : {...req.body}
+    let updatedBody
+    if(req.files){
+        updatedBody = {...body, profilePic : { data : req.files.profilePic.data }}
+    } else {
+        updatedBody = {...body}
+    }
     try {
-        const user = await User.findByIdAndUpdate( req.tokenData._id, updatedBody , {new : true})
+        const user = await User.findByIdAndUpdate( req.tokenData._id, updatedBody , {new : true, runValidators : true})
         const userObj = JSON.parse(JSON.stringify(user))
         res.json(omit(userObj, ['password']))
     } catch (error) {
         res.json(error)
     }
+  
+    // try {
+    //     const user = await User.findByIdAndUpdate( req.tokenData._id, updatedBody , {new : true})
+    //     const userObj = JSON.parse(JSON.stringify(user))
+    //     res.json(omit(userObj, ['password']))
+    // } catch (error) {
+    //     res.json(error)
+    // }
 }
+
+// usersController.update = async (req, res) => {
+//     const body = req.body 
+//     const file = req.file ? req.file.filename : null
+//     const updatedBody = file ? {...req.body , profilePic : { 
+//                 data:fs.readFileSync("my-uploads/"+file),
+//                 contentType:'image/png'
+//             }} : {...req.body}
+//     try {
+//         const user = await User.findByIdAndUpdate( req.tokenData._id, updatedBody , {new : true})
+//         const userObj = JSON.parse(JSON.stringify(user))
+//         res.json(omit(userObj, ['password']))
+//     } catch (error) {
+//         res.json(error)
+//     }
+// }
 
 module.exports = usersController
