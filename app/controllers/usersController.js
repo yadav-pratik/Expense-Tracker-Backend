@@ -5,7 +5,6 @@ const {omit} = require('lodash')
 const fs = require('fs')
 
 const User = require('../models/user')
-const Budget = require('../models/budget')
 
 const usersController = {}
 
@@ -14,9 +13,6 @@ usersController.register = async (req, res) => {
         const {email, password, profile} = req.body
         const user = new User({email, password, profile})
         const u = await user.save()
-
-        // const budget = new Budget({userId : u._id})
-        // const b = await budget.save()
         res.json({
             success : 'Account Created Successfully'
         })
@@ -88,30 +84,6 @@ usersController.update = async (req, res) => {
     } catch (error) {
         res.json(error)
     }
-  
-    // try {
-    //     const user = await User.findByIdAndUpdate( req.tokenData._id, updatedBody , {new : true})
-    //     const userObj = JSON.parse(JSON.stringify(user))
-    //     res.json(omit(userObj, ['password']))
-    // } catch (error) {
-    //     res.json(error)
-    // }
 }
-
-// usersController.update = async (req, res) => {
-//     const body = req.body 
-//     const file = req.file ? req.file.filename : null
-//     const updatedBody = file ? {...req.body , profilePic : { 
-//                 data:fs.readFileSync("my-uploads/"+file),
-//                 contentType:'image/png'
-//             }} : {...req.body}
-//     try {
-//         const user = await User.findByIdAndUpdate( req.tokenData._id, updatedBody , {new : true})
-//         const userObj = JSON.parse(JSON.stringify(user))
-//         res.json(omit(userObj, ['password']))
-//     } catch (error) {
-//         res.json(error)
-//     }
-// }
 
 module.exports = usersController

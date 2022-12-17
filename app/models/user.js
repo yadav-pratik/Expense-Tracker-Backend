@@ -36,7 +36,6 @@ const usersSchema = new Schema({
         }
     },
     profilePic : {
-        // type : String
         data : Buffer,
         contentType : String
     }
