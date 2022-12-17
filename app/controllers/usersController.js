@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 const {omit} = require('lodash')
+const fs = require('fs')
 
 const User = require('../models/user')
 const Budget = require('../models/budget')
@@ -75,7 +76,10 @@ usersController.show = async (req, res) => {
 usersController.update = async (req, res) => {
     const body = req.body 
     const file = req.file ? req.file.filename : null
-    const updatedBody = file ? {...req.body , profilePic : file} : {...req.body}
+    const updatedBody = file ? {...req.body , profilePic : { 
+                data:fs.readFileSync("my-uploads/"+file),
+                contentType:'image/png'
+            }} : {...req.body}
     try {
         const user = await User.findByIdAndUpdate( req.tokenData._id, updatedBody , {new : true})
         const userObj = JSON.parse(JSON.stringify(user))

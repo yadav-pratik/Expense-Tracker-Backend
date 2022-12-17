@@ -3,15 +3,13 @@ const multer = require('multer')
 const path = require('path')
 
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, path.join(__dirname, '/public/'))
-    },
-    filename: function (req, file, cb) {
-      cb(null, Date.now() + '_' + file.originalname)
-    }
-})
-
-const upload = multer({ storage: storage })
+  destination: (req,file,cb)=>{    cb(null,'my-uploads')
+     },
+     filename:(req,file,cb)=>{
+         cb(null,file.originalname)
+     }
+ })
+ const upload = multer({storage})
 
 const usersController = require('../app/controllers/usersController')
 const categoriesController = require('../app/controllers/categoriesController')

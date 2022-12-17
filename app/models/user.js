@@ -36,7 +36,9 @@ const usersSchema = new Schema({
         }
     },
     profilePic : {
-        type : String
+        // type : String
+        data : Buffer,
+        contentType : String
     }
 
 },{timestamps : true})
