@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+require('dotenv').config()
 
 const url = `mongodb+srv://yadavpratik:${process.env.MONGODB_PASS}@cluster0.3mbrwhi.mongodb.net/?retryWrites=true&w=majority`
 
