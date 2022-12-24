@@ -17,7 +17,7 @@ const router = express.Router()
 router.post('/api/users', usersController.register)
 router.post('/api/users/login',usersController.login)
 router.get('/api/users', authenticateUser, usersController.show)
-router.put('/api/users', imageUpload, authenticateUser, usersController.update)
+router.put('/api/users', authenticateUser, imageUpload, usersController.update)
 
 //category APIs
 

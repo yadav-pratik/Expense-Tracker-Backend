@@ -73,12 +73,12 @@ usersController.update = async (req, res) => {
     const body = req.body 
     let updatedBody
     if(req.files){
-        updatedBody = {...body, profilePic : { data : req.files.profilePic.data }}
+        updatedBody = {...body, profile : { name : body['profile[name]'], occupation : body['profile[occupation]']}, profilePic : { data : req.files.profilePic.data }}
     } else {
-        updatedBody = {...body}
+        updatedBody = {...body, profile : { name : body['profile[name]'], occupation : body['profile[occupation]']}}
     }
     try {
-        const user = await User.findByIdAndUpdate( req.tokenData._id, updatedBody , {new : true, runValidators : true})
+        const user = await User.findByIdAndUpdate( req.tokenData._id, updatedBody , {new : true, runValidators: true})
         const userObj = JSON.parse(JSON.stringify(user))
         res.json(omit(userObj, ['password']))
     } catch (error) {
