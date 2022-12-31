@@ -50,7 +50,7 @@ usersSchema.pre('save', async function (next){
         user.password = encrypted
         next()
     } catch (error) {
-        res.json(error)
+        console.log(error)
     }
 })
 

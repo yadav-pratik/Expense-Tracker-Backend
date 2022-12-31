@@ -32,7 +32,7 @@ usersController.login = async (req, res) => {
     const {email, password} = req.body
     try {
         const user = await User.findOne({email})
-        if(user){   //email is found
+        if(user){   
             const match = await bcrypt.compare(password, user.password)
             if(match){
                 const tokenData = {
@@ -45,16 +45,16 @@ usersController.login = async (req, res) => {
                 })
             } else {
                 res.json({
-                    notice : 'invalid email or password'        //if passwords do not match
+                    notice : 'invalid email or password'       
                 })
             }
         } else {
             res.json({
-                notice : 'invalid email or password'           //if email not found
+                notice : 'invalid email or password'           
             })
         }
     } catch (error) {
-        res.json(error)              //problem in connection to db
+        res.json(error)              
     }
     
 }
